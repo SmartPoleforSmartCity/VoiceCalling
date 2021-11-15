@@ -2,12 +2,13 @@ import socket
 import threading
 import pyaudio
 
-client = socket.socket()
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-ip = '192.168.43.173'
-port = 9000
+ip = '34.146.3.246'
+port = 3389
 
 client.connect((ip, port))
+print("Connect -->",ip)
 
 p = pyaudio.PyAudio()
 Format = pyaudio.paInt16
@@ -21,6 +22,7 @@ output_stream = p.open(format = Format,channels = Channels, rate = Rate, output 
 def send():
     while True:
         try:
+            print("Sending Audio...")
             client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             data = input_stream.read(Chunks)
             client.send(data)
@@ -29,6 +31,7 @@ def send():
 def receive():
     while True:
         try:
+            print("Receive Audio...")
             client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             data = client.recv(Chunks)
             output_stream.write(data)
