@@ -172,7 +172,9 @@ class Doorbell:
     def _cleanup(self):
         GPIO.cleanup(self._doorbell_button_pin)
         show_screen()
-
+    
+    def end_call(self):
+        self.end()
 
 if __name__ == "__main__":
     doorbell = Doorbell(DOORBELL_PIN)
